@@ -13,7 +13,7 @@ app = FastAPI(title="Team Task Manager API")
 # CORS configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000"],  # React dev servers
+    allow_origins=['*'],  # React dev servers
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
