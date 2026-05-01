@@ -6,7 +6,7 @@ A collaborative task management web application where users can create projects,
 
 ---
 
-## 📋 Features
+## Features
 
 - **User Authentication** – Sign up, log in, secure JWT‑based sessions.
 - **Project Management** – Create projects (creator becomes Admin). Admin can add/remove members; members view assigned projects.
@@ -17,7 +17,7 @@ A collaborative task management web application where users can create projects,
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer       | Technology                                         |
 |-------------|----------------------------------------------------|
@@ -27,7 +27,7 @@ A collaborative task management web application where users can create projects,
 
 ---
 
-## 🚀 Live URLs
+## Live URLs
 
 - **Frontend (Vercel)**: [https://team-task-manager-ochre-six.vercel.app](https://team-task-manager-ochre-six.vercel.app)
 - **Backend API (Render)**: *[https://team-task-backend.onrender.com](https://team-task-backend.onrender.com)* (replace with your actual backend URL if different)
@@ -35,7 +35,7 @@ A collaborative task management web application where users can create projects,
 ---
 
 
-## 💻 Local Development Setup
+## Local Development Setup
 
 ### Prerequisites
 - Python 3.10+
