@@ -1,6 +1,8 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import api from '../services/api';
 import toast from 'react-hot-toast';
+
+// Direct backend URL – includes the /api prefix
+const API_BASE = 'https://team-task-manager-3-i7i1.onrender.com/api';
 
 const AuthContext = createContext();
 
@@ -18,9 +20,17 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUser = async () => {
     try {
-      const res = await api.get('/auth/me');
-      setUser(res.data);
-    } catch {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`${API_BASE}/auth/me`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setUser(data);
+      } else {
+        localStorage.removeItem('token');
+      }
+    } catch (err) {
       localStorage.removeItem('token');
     } finally {
       setLoading(false);
@@ -29,24 +39,44 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const res = await api.post('/auth/login', { email, password });
-      localStorage.setItem('token', res.data.access_token);
-      await fetchUser();
-      toast.success('Logged in');
-      return true;
+      const res = await fetch(`${API_BASE}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        localStorage.setItem('token', data.access_token);
+        await fetchUser();
+        toast.success('Logged in');
+        return true;
+      } else {
+        toast.error(data.detail || 'Login failed');
+        return false;
+      }
     } catch (err) {
-      toast.error(err.response?.data?.detail || 'Login failed');
+      toast.error('Network error');
       return false;
     }
   };
 
   const register = async (name, email, password) => {
     try {
-      await api.post('/auth/signup', { name, email, password });
-      toast.success('Registered! Please login.');
-      return true;
+      const res = await fetch(`${API_BASE}/auth/signup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password })
+      });
+      if (res.ok) {
+        toast.success('Registered! Please login.');
+        return true;
+      } else {
+        const data = await res.json();
+        toast.error(data.detail || 'Signup failed');
+        return false;
+      }
     } catch (err) {
-      toast.error(err.response?.data?.detail || 'Signup failed');
+      toast.error('Network error');
       return false;
     }
   };
