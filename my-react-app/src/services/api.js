@@ -1,7 +1,10 @@
 import axios from 'axios';
 
+// Use the exact full URL including /api
+const API_BASE_URL = 'https://team-task-manager-3-i7i1.onrender.com/api';
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/api',
+  baseURL: API_BASE_URL,
   headers: { 'Content-Type': 'application/json' },
 });
 
